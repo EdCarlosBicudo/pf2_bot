@@ -1,7 +1,7 @@
-from peewee import *
+from peewee import Model
+from models import database
 
-db = SqliteDatabase('pf2_bot.db', pragmas={'foreign_keys': 1})
 
 class BaseModel(Model):
     class Meta:
-        database = db
+        database = database.database
