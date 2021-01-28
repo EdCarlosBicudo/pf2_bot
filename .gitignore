@@ -1,1 +1,4 @@
+/.vscode/
+__pycache__/
 __init__.py
+pf2_bot.db
