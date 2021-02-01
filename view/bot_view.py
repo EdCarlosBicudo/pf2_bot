@@ -1,4 +1,5 @@
 from controler import controler_talentos
+from markups import inline_keyboard_markups as ikm
 
 
 def pesquisa_talento(pesquisa):
@@ -11,5 +12,11 @@ def pesquisa_talento(pesquisa):
         return {"text": retorno[0]}
 
     if retorno.count() > 1:
-        #TODO fazer o keyboard markup
-        return {"text": "O Talento que você está procurando é um desses?"}
+        return {"text": "O Talento que você está procurando é um desses?",
+                "reply_markup": ikm.talentos_markup(retorno)}
+
+
+def pesquisa_talento_por_id(id):
+    retorno = controler_talentos.by_id(id)
+
+    return {"text": retorno}

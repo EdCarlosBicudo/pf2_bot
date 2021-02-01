@@ -1,3 +1,4 @@
+from telebot.types import InlineKeyboardMarkup
 from view import bot_view
 from models.Talento import Talento
 
@@ -22,3 +23,11 @@ def test_pesquisa_talento_com_mais_de_um_resultado():
     retorno = bot_view.pesquisa_talento(pesquisa)
     assert isinstance(retorno, dict)
     assert retorno["text"] == "O Talento que você está procurando é um desses?"
+    assert isinstance(retorno["reply_markup"], InlineKeyboardMarkup)
+
+
+def test_pesquisa_talento_por_id_com_resultado():
+    pesquisa = 1
+    retorno = bot_view.pesquisa_talento_por_id(pesquisa)
+    assert isinstance(retorno, dict)
+    assert retorno == {"text": Talento.get(Talento.id == pesquisa)}

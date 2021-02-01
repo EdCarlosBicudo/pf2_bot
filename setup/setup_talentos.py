@@ -62,3 +62,7 @@ def setup():
     data = load_file()
     setup_tipo_talento(data)
     setup_talentos(data)
+
+
+if __name__ == '__main__':
+    setup()
