@@ -12,11 +12,17 @@ bot = telebot.AsyncTeleBot(tokens.BOT_TOKEN)
 def send_welcome(message):
     """Responde a com uma mensagem de boas vindas e uma descrição da usabilidade.
     """
+    text = ("Este é um bot para consultas sobre o sistema Pathfinder Segunda Edição\n"
+            "Este projeto ainda está em desenvolvimento.\n"
+            "Funções implementadas até o momento:\n"
+            "/talentos: Pesquisa os talentos do sistema.\n"
+            "/licenca: Informações sobre a Licença de Uso da Paizo.\n"
+            "\nDesenvolvido por: Ed Carlos Bicudo. ed.carlos.bicudo@pm.me")
 
-    bot.reply_to(message, "Seu bot iniciou!").wait()
+    bot.reply_to(message, text).wait()
 
 
-@bot.message_handler(commands=["license"])
+@bot.message_handler(commands=["licenca"])
 def exibe_license(message):
     text = ("Para informações sobre a licensa acesse: "
             "[https://bitbucket.org/EdCarlosBicudo/pf2_bot/wiki/license]"
