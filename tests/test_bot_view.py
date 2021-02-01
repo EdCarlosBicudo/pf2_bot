@@ -30,4 +30,4 @@ def test_pesquisa_talento_por_id_com_resultado():
     pesquisa = 1
     retorno = bot_view.pesquisa_talento_por_id(pesquisa)
     assert isinstance(retorno, dict)
-    assert retorno == {"text": Talento.get(Talento.id == pesquisa)}
+    assert retorno == {"text": Talento.get(Talento.id == pesquisa).__str__()}
