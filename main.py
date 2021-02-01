@@ -16,6 +16,14 @@ def send_welcome(message):
     bot.reply_to(message, "Seu bot iniciou!").wait()
 
 
+@bot.message_handler(commands=["license"])
+def exibe_license(message):
+    text = ("Para informações sobre a licensa acesse: "
+            "[https://bitbucket.org/EdCarlosBicudo/pf2_bot/wiki/license]"
+            "(https://bitbucket.org/EdCarlosBicudo/pf2_bot/wiki/license)")
+    bot.reply_to(message, text, parse_mode="Markdown")
+
+
 @bot.message_handler(commands=["talento", "talentos"])
 def pesquisa_talentos(message):
     """Pesquisa o talento de acordo com a pesquisa do usuário
@@ -46,6 +54,10 @@ def callback_pesquisa_talento(message):
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
 
-    bot.polling()
+    while True:
+        try:
+            bot.polling()
+        except Exception as error:
+            with open("error.log", 'a') as file:
+                file.write(str(error))
