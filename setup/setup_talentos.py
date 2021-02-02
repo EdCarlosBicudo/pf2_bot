@@ -12,22 +12,24 @@ def create_tables():
 
 def load_file():
     file = openpyxl.load_workbook(FILE, data_only=True)
-    sheet = file["talentos"]
-
     data = []
-    for line in sheet[f"A1:K{sheet.max_row}"]:
-        talento = {}
-        talento["nome"] = line[0].value.title()
-        talento["nivel"] = line[1].value
-        talento["acao"] = line[2].value
-        talento["pre_requisito"] = line[3].value
-        talento["descricao"] = line[4].value
-        talento["tipo"] = []
+    sheets = ["gerais", "classes"]
+    for s in sheets:
+        sheet = file[s]
 
-        for i in range(5, 11):
-            if tipo := line[i].value:
-                talento["tipo"].append(tipo)
-        data.append(talento)
+        for line in sheet[f"A1:K{sheet.max_row}"]:
+            talento = {}
+            talento["nome"] = line[0].value.title()
+            talento["nivel"] = line[1].value
+            talento["acao"] = line[2].value
+            talento["pre_requisito"] = line[3].value
+            talento["descricao"] = line[4].value
+            talento["tipo"] = []
+
+            for i in range(5, 11):
+                if tipo := line[i].value:
+                    talento["tipo"].append(tipo)
+            data.append(talento)
     return data
 
 
