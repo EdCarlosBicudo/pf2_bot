@@ -9,6 +9,16 @@ class Talento(BaseModel.BaseModel):
     pre_requisito = CharField(null=True)
     descricao = CharField()
 
+    def __str__(self):
+        text = f"*{self.nome}* - {self.nivel}\n"
+        for tipo in self.tipos:
+            text += f"{tipo.nome} "
+        if self.pre_requisito:
+            text += f"\n*Pré-Requisitos:* {self.pre_requisito}\n"
+
+        text += self.descricao
+        return text
+
 
 class Tipo(BaseModel.BaseModel):
     nome = CharField(unique=True)
