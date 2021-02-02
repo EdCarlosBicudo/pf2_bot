@@ -4,6 +4,7 @@ import logging
 import pretty_errors
 from view import bot_view
 from util import constants as c
+from log import log
 
 bot = telebot.AsyncTeleBot(tokens.BOT_TOKEN)
 
@@ -11,7 +12,13 @@ bot = telebot.AsyncTeleBot(tokens.BOT_TOKEN)
 @bot.message_handler(commands=["start", "help"])
 def send_welcome(message):
     """Responde a com uma mensagem de boas vindas e uma descrição da usabilidade.
+
+    Args:
+        message (Message): Mensagem recebida do usuário.
     """
+
+    log.add_known_user(message.chat.id)
+
     text = ("Este é um bot para consultas sobre o sistema Pathfinder Segunda Edição\n"
             "Este projeto ainda está em desenvolvimento.\n"
             "Funções implementadas até o momento:\n"
@@ -24,6 +31,13 @@ def send_welcome(message):
 
 @bot.message_handler(commands=["licenca"])
 def exibe_license(message):
+    """Exibe a licença de uso da Paizo
+
+    Args:
+        message (Message): Mensagem recebida do usuário.
+    """
+    log.log_access(message.chat.id, message.text)
+
     text = ("Para informações sobre a licensa acesse: "
             "[https://bitbucket.org/EdCarlosBicudo/pf2_bot/wiki/license]"
             "(https://bitbucket.org/EdCarlosBicudo/pf2_bot/wiki/license)")
@@ -38,6 +52,9 @@ def pesquisa_talentos(message):
     Args:
         message (Message): Mensagem recebida do usuário.
     """
+
+    log.log_access(message.chat.id, message.text)
+
     pesquisa = message.text.split(" ")[1]
     resposta = bot_view.pesquisa_talento(pesquisa)
     bot.reply_to(message, parse_mode="Markdown", **resposta).wait()
@@ -65,5 +82,4 @@ if __name__ == "__main__":
         try:
             bot.polling()
         except Exception as error:
-            with open("error.log", 'a') as file:
-                file.write(str(error))
+            log.ERROR_LOGGER.error("MAIN:bot_caiu: " + str(error))
