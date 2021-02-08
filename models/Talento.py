@@ -14,9 +14,9 @@ class Talento(BaseModel.BaseModel):
         for tipo in self.tipos:
             text += f"{tipo.nome} "
         if self.pre_requisito:
-            text += f"\n*Pré-Requisitos:* {self.pre_requisito}\n"
+            text += f"\n*Pré-Requisitos:* {self.pre_requisito}"
 
-        text += self.descricao
+        text += f"\n{self.descricao}"
         return text
 
 
