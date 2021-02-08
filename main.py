@@ -4,6 +4,7 @@ import logging
 import pretty_errors
 from view import bot_view
 from util import constants as c
+from log import log
 
 bot = telebot.AsyncTeleBot(tokens.BOT_TOKEN)
 
@@ -11,9 +12,36 @@ bot = telebot.AsyncTeleBot(tokens.BOT_TOKEN)
 @bot.message_handler(commands=["start", "help"])
 def send_welcome(message):
     """Responde a com uma mensagem de boas vindas e uma descrição da usabilidade.
+
+    Args:
+        message (Message): Mensagem recebida do usuário.
     """
 
-    bot.reply_to(message, "Seu bot iniciou!").wait()
+    log.add_known_user(message.chat.id)
+
+    text = ("Este é um bot para consultas sobre o sistema Pathfinder Segunda Edição\n"
+            "Este projeto ainda está em desenvolvimento.\n"
+            "Funções implementadas até o momento:\n"
+            "/talentos: Pesquisa os talentos do sistema.\n"
+            "/licenca: Informações sobre a Licença de Uso da Paizo.\n"
+            "\nDesenvolvido por: Ed Carlos Bicudo. ed.carlos.bicudo@pm.me")
+
+    bot.reply_to(message, text).wait()
+
+
+@bot.message_handler(commands=["licenca"])
+def exibe_license(message):
+    """Exibe a licença de uso da Paizo
+
+    Args:
+        message (Message): Mensagem recebida do usuário.
+    """
+    log.log_access(message.chat.id, message.text)
+
+    text = ("Para informações sobre a licensa acesse: "
+            "[https://bitbucket.org/EdCarlosBicudo/pf2_bot/wiki/license]"
+            "(https://bitbucket.org/EdCarlosBicudo/pf2_bot/wiki/license)")
+    bot.reply_to(message, text, parse_mode="Markdown")
 
 
 @bot.message_handler(commands=["talento", "talentos"])
@@ -24,6 +52,9 @@ def pesquisa_talentos(message):
     Args:
         message (Message): Mensagem recebida do usuário.
     """
+
+    log.log_access(message.chat.id, message.text)
+
     pesquisa = message.text.split(" ")[1]
     resposta = bot_view.pesquisa_talento(pesquisa)
     bot.reply_to(message, parse_mode="Markdown", **resposta).wait()
@@ -46,6 +77,9 @@ def callback_pesquisa_talento(message):
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
 
-    bot.polling()
+    while True:
+        try:
+            bot.polling()
+        except Exception as error:
+            log.ERROR_LOGGER.error("MAIN:bot_caiu: " + str(error))
