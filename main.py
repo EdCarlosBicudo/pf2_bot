@@ -22,9 +22,12 @@ def send_welcome(message):
     text = ("Este é um bot para consultas sobre o sistema Pathfinder Segunda Edição\n"
             "Este projeto ainda está em desenvolvimento.\n"
             "Funções implementadas até o momento:\n"
-            "/talentos: Pesquisa os talentos do sistema.\n"
+            "/talento: Pesquisa os talentos do sistema.\n"
+            "/talentos: Pesquisa os talentos do sistema por traço.\n"
             "/licenca: Informações sobre a Licença de Uso da Paizo.\n"
-            "\nDesenvolvido por: Ed Carlos Bicudo. ed.carlos.bicudo@pm.me")
+            "\nDesenvolvido por: Ed Carlos Bicudo."
+            "\ned.carlos.bicudo@pm.me"
+            "\nhttps://github.com/EdCarlosBicudo/pf2_bot")
 
     bot.reply_to(message, text).wait()
 
