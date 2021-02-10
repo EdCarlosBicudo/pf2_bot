@@ -13,7 +13,7 @@ def create_tables():
 def load_file():
     file = openpyxl.load_workbook(FILE, data_only=True)
     data = []
-    sheets = ["gerais", "classes"]
+    sheets = ["gerais", "classes", "ancestralidade"]
     for s in sheets:
         sheet = file[s]
 
