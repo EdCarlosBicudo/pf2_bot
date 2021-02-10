@@ -1,4 +1,4 @@
-from peewee import CharField, IntegerField, ManyToManyField
+from peewee import CharField, ForeignKeyField, IntegerField
 from models import BaseModel
 
 
@@ -11,8 +11,8 @@ class Talento(BaseModel.BaseModel):
 
     def __str__(self):
         text = f"*{self.nome}* - {self.nivel}\n"
-        for tipo in self.tipos:
-            text += f"{tipo.nome} "
+        for traco in self.tracos:
+            text += f"{traco.traco} "
         if self.pre_requisito:
             text += f"\n*Pré-Requisitos:* {self.pre_requisito}"
 
@@ -20,9 +20,13 @@ class Talento(BaseModel.BaseModel):
         return text
 
 
-class Tipo(BaseModel.BaseModel):
+class Traco(BaseModel.BaseModel):
     nome = CharField(unique=True)
-    talentos = ManyToManyField(Talento, backref="tipos")
+
+    def __str__(self):
+        return self.nome
 
 
-TipoTalento = Tipo.talentos.get_through_model()
+class TracoTalento(BaseModel.BaseModel):
+    talento = ForeignKeyField(Talento, backref="tracos")
+    traco = ForeignKeyField(Traco, backref="talentos")
