@@ -1,13 +1,13 @@
 import openpyxl
 from models import database
-from models.Talento import Talento, Tipo, TipoTalento
+from models.Talento import Talento, Traco, TracoTalento
 
 FILE = "data/talentos.xlsx"
 
 
 def create_tables():
     with database.database as db:
-        db.create_tables([Talento, Tipo, TipoTalento])
+        db.create_tables([Talento, Traco, TracoTalento])
 
 
 def load_file():
@@ -24,23 +24,23 @@ def load_file():
             talento["acao"] = line[2].value
             talento["pre_requisito"] = line[3].value
             talento["descricao"] = line[4].value
-            talento["tipo"] = []
+            talento["tracos"] = []
 
             for i in range(5, 11):
-                if tipo := line[i].value:
-                    talento["tipo"].append(tipo)
+                if traco := line[i].value:
+                    talento["tracos"].append(traco)
             data.append(talento)
     return data
 
 
-def setup_tipo_talento(data):
-    tipos = set()
+def setup_traco_talento(data):
+    tracos = set()
     for talento in data:
-        tipos.update(talento["tipo"])
+        tracos.update(talento["tracos"])
 
     with database.database.atomic():
-        for tipo in tipos:
-            Tipo.create(nome=tipo)
+        for traco in tracos:
+            Traco.create(nome=traco)
 
 
 def setup_talentos(data):
@@ -52,17 +52,15 @@ def setup_talentos(data):
                                acao=talento["acao"],
                                pre_requisito=talento["pre_requisito"],
                                descricao=talento["descricao"])
-
-            for tipo in talento["tipo"]:
-                aux = Tipo.select().where(Tipo.nome == tipo).get()
-                t.tipos.add(aux)
-            t.save()
+            for traco in talento["tracos"]:
+                aux = Traco.select().where(Traco.nome == traco).get()
+                TracoTalento.create(traco=aux, talento=t)
 
 
 def setup():
     create_tables()
     data = load_file()
-    setup_tipo_talento(data)
+    setup_traco_talento(data)
     setup_talentos(data)
 
 

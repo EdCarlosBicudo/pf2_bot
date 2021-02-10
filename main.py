@@ -44,7 +44,7 @@ def exibe_license(message):
     bot.reply_to(message, text, parse_mode="Markdown")
 
 
-@bot.message_handler(commands=["talento", "talentos"])
+@bot.message_handler(commands=["talento"])
 def pesquisa_talentos(message):
     """Pesquisa o talento de acordo com a pesquisa do usuário
     e responde.
@@ -57,6 +57,22 @@ def pesquisa_talentos(message):
 
     pesquisa = message.text.split(" ")[1]
     resposta = bot_view.pesquisa_talento(pesquisa)
+    bot.reply_to(message, parse_mode="Markdown", **resposta).wait()
+
+
+@bot.message_handler(commands=["talentos"])
+def pesquisa_talento_por_traco(message):
+    """Pesquisa o talento por tracos de acordo com os tracos
+    passados pelo usuário e responde.
+
+    Args:
+    message (Message): Mensagem recebida do usuário.
+    """
+
+    log.log_access(message.chat.id, message.text)
+
+    pesquisa = message.text.split(" ")[1:]
+    resposta = bot_view.pesquisa_talento_por_traco(pesquisa)
     bot.reply_to(message, parse_mode="Markdown", **resposta).wait()
 
 
