@@ -58,7 +58,7 @@ def pesquisa_talentos(message):
 
     log.log_access(message.chat.id, message.text)
 
-    pesquisa = message.text.split(" ")[1]
+    pesquisa = message.text.split(" ")[1:]
     resposta = bot_view.pesquisa_talento(pesquisa)
     bot.reply_to(message, parse_mode="Markdown", **resposta).wait()
 
