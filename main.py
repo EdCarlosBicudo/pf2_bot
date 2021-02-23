@@ -58,7 +58,7 @@ def pesquisa_talentos(message):
 
     log.log_access(message.chat.id, message.text)
 
-    pesquisa = message.text.split(" ")[1]
+    pesquisa = message.text.split(" ")[1:]
     resposta = bot_view.pesquisa_talento(pesquisa)
     bot.reply_to(message, parse_mode="Markdown", **resposta).wait()
 
@@ -97,8 +97,8 @@ def callback_pesquisa_talento(message):
 
 if __name__ == "__main__":
 
-#    while True:
-    try:
-        bot.polling()
-    except Exception as error:
-        log.ERROR_LOGGER.error("MAIN:bot_caiu: " + str(error))
+    while True:
+        try:
+            bot.polling()
+        except Exception as error:
+            log.ERROR_LOGGER.error("MAIN:bot_caiu: " + str(error))
