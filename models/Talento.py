@@ -16,7 +16,8 @@ class Talento(BaseModel.BaseModel):
         if self.pre_requisito:
             text += f"\n*Pré-Requisitos:* {self.pre_requisito}"
 
-        text += f"\n{self.descricao}"
+        aux = self.descricao.replace(r'\n', '\n')
+        text += f"\n{aux}"
         return text
 
 
