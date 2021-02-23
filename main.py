@@ -97,8 +97,8 @@ def callback_pesquisa_talento(message):
 
 if __name__ == "__main__":
 
-    while True:
-        try:
-            bot.polling()
-        except Exception as error:
-            log.ERROR_LOGGER.error("MAIN:bot_caiu: " + str(error))
+#    while True:
+    try:
+        bot.polling()
+    except Exception as error:
+        log.ERROR_LOGGER.error("MAIN:bot_caiu: " + str(error))
