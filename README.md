@@ -4,7 +4,10 @@ Este é um bot para consultas sobre o sistema Pathfinder Segunda Edição.
 
 Este projeto ainda está em desenvolvimento.
 
-/talentos: Pesquisa os talentos do sistema.
+/talento: Pesquisa os talentos do sistema.
+
+/talentos: Pesquisa os talentos por traços. 
+
 /licenca: Informações sobre a Licença de Uso da Paizo.
 
 
